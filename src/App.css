@@ -21,7 +21,8 @@
 
 .game-wrapper {
   height: 100%;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
