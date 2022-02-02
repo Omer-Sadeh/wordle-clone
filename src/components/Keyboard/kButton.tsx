@@ -1,8 +1,8 @@
 import React from 'react';
 
-function KButton({value}:{value:String}) {
+function KButton({value, press}:{value:String, press:any}) {
     return(
-        <div className='btn-wrapper'><button className="keyboard-button">{value}</button></div>
+        <div className='btn-wrapper'><button className="keyboard-button" onClick={() => press(value)}>{value}</button></div>
     );
 }
 

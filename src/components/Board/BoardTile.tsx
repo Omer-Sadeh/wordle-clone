@@ -1,8 +1,8 @@
 import React from 'react';
 
-function BoardTile() {
+function BoardTile({value}:{value:String}) {
     return(
-        <div className='tile-wrapper'><button className="board-tile empty"></button></div>
+        <div className='tile-wrapper'><button className="board-tile empty">{value}</button></div>
     );
 }
 
