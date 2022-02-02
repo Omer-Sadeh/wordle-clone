@@ -3,7 +3,7 @@ import React from 'react';
 function BoardTile({value, state}:{value:String, state:String}) {
     switch(state) {
         case "empty":
-            return(<div className='tile-wrapper'><button className="board-tile empty"></button></div>);
+            return(<div className='tile-wrapper'><button className="board-tile empty">{value}</button></div>);
         case "correct":
             return(<div className='tile-wrapper'><button className="board-tile correct">{value}</button></div>);
         case "misplaced":
