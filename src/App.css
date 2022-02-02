@@ -71,3 +71,54 @@
 }
 
 /* ------------------------------------ */
+
+/* --- Keyboard ----------------------- */
+
+.keyboard-wrapper .row1,.row3 {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.keyboard-wrapper .row2 {
+  height: 100%;
+  width: 90%;
+  position: relative;
+  left: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-wrapper {
+  height: 100%;
+  width: 100%;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.keyboard-button {
+  width: 90%;
+  height: 90%;
+  position: relative;
+  left: 5%;
+  background-color: gray;
+  border: 0px;
+  border-radius: 8%;
+  color: white;
+  font-weight: bold;
+
+  -webkit-transition: all .2s ease-in-out;
+   -moz-transition: all .2s ease-in-out;
+   -o-transition: all .2s ease-in-out;
+   transition: all .2s ease-in-out;
+}
+
+.keyboard-button:hover {
+  background-color: rgb(94, 94, 94);
+}
+
+/* ------------------------------------ */
