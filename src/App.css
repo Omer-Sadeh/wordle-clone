@@ -1,4 +1,10 @@
+/* --- Base Imports ------------------- */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap');
+
+/* ------------------------------------ */
+
+/* --- Wrappers ----------------------- */
 
 .App {
   text-align: center;
@@ -31,18 +37,6 @@
   margin: 0;
 }
 
-.header-wrapper .title {
-  font-weight: 700;
-  font-size: 36px;
-  letter-spacing: 0.2rem;
-  text-transform: uppercase;
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-}
-
 .board-wrapper {
   height: 100%;
   text-align: center;
@@ -58,3 +52,21 @@
   flex-direction: column;
   border: 1px gray dashed;
 }
+
+/* ------------------------------------ */
+
+/* --- Header ------------------------- */
+
+.header-wrapper .title {
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------ */
