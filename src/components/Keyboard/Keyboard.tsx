@@ -1,17 +1,17 @@
 import React from 'react';
 import KButton from './kButton';
 
-function Keyboard({row1, row2, row3, press}:{row1:String[], row2:String[], row3:String[], press:any}) {
+function Keyboard({press, letters}:{press:any, letters:any[]}) {
     return(
         <div className="keyboard-wrapper">
             <div className='row1'>
-                {row1.map((letter: String) => <KButton value={letter} press={press} />)}
+                {letters.slice(0,10).map((letter: any) => <KButton value={letter.name} press={press} state={letter.state} />)}
             </div>
             <div className='row2'>
-                {row2.map((letter: String) => <KButton value={letter} press={press}  />)}
+                {letters.slice(10,19).map((letter: any) => <KButton value={letter.name} press={press} state={letter.state} />)}
             </div>
             <div className='row3'>
-                {row3.map((letter: String) => <KButton value={letter} press={press}  />)}
+                {letters.slice(19,28).map((letter: any) => <KButton value={letter.name} press={press} state={letter.state} />)}
             </div>
         </div>
     );

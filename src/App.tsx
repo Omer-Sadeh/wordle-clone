@@ -12,11 +12,9 @@ function App() {
   const [BoardTiles, setBoardTiles] = useState(Array(6*5).fill({name: null, state: "empty"}));
   const [GameEnded, setGameEnded] = useState(false);
 
-  const KeyboardTiles = {
-    Row1: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    Row2: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    Row3: ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DEL']
-  };
+  const [KeyboardTiles, setKeyboardTiles] = useState([{name:'Q', state: ""}, {name:'W', state: ""}, {name:'E', state: ""}, {name:'R', state: ""}, {name:'T', state: ""}, {name:'Y', state: ""}, {name:'U', state: ""}, {name:'I', state: ""}, {name:'O', state: ""},
+    {name:'P', state: ""}, {name:'A', state: ""}, {name:'S', state: ""}, {name:'D', state: ""}, {name:'F', state: ""}, {name:'G', state: ""}, {name:'H', state: ""}, {name:'J', state: ""}, {name:'K', state: ""}, {name:'L', state: ""},
+    {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'DEL', state: ""}]);
 
   const keyboarPress = (value:String) => {
     if(!GameEnded) {
@@ -43,13 +41,31 @@ function App() {
 
   const checkAttempt = () => {
     var newBoard = BoardTiles.concat();
+    var newKeyboard = KeyboardTiles.concat();
     var winCondition = true;
     if(Attempt < 6 && LetterNum === 5) {
       for (var i = 0; i < 5; i++) {
-        if (newBoard[Attempt*5 + i].name === THEWORD[i]) newBoard[Attempt*5 + i].state = "correct";
-        else newBoard[Attempt*5 + i].state = "wrong";
+        if (newBoard[Attempt*5 + i].name === THEWORD[i]){
+          newBoard[Attempt*5 + i].state = "correct";
+          for (var j = 0; j < 28; j++) {
+            if (newKeyboard[j].name === newBoard[Attempt*5 + i].name){
+              newKeyboard[j].state = "correct";
+              break;
+            }
+          }
+        }
+        else{
+          newBoard[Attempt*5 + i].state = "wrong";
+          for (var j = 0; j < 28; j++) {
+            if (newKeyboard[j].name === newBoard[Attempt*5 + i].name){
+              newKeyboard[j].state = "wrong";
+              break;
+            }
+          }
+        }
       }
       setBoardTiles(newBoard);
+      setKeyboardTiles(newKeyboard);
       setAttempt(Attempt + 1);
       setLetterNum(0);
     }
@@ -71,7 +87,7 @@ function App() {
       <div className="game-wrapper">
         <Header />
         <Board words={BoardTiles} />
-        <Keyboard row1={KeyboardTiles.Row1} row2={KeyboardTiles.Row2} row3={KeyboardTiles.Row3} press={keyboarPress}/>
+        <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
       </div>
     </div>
   );
