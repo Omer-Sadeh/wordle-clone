@@ -6,6 +6,7 @@ import Keyboard from './components/Keyboard/Keyboard';
 
 function App() {
 
+  const THEWORD = "BOATS"
   const [Tries, setTries] = useState(
     {
       try1: Array(5).fill(null),
@@ -26,28 +27,44 @@ function App() {
   };
 
   const keyboarPress = (value:String) => {
+    switch(value) {
+      case "DEL": if (LetterNum > 0 && Attempt < 7) updateBoard(null, false);
+        break;
+      case "ENTER": checkAttempt();
+        break;
+      default: if(LetterNum < 5 && Attempt < 7) updateBoard(value, true);
+        break;
+    }
+  }
+
+  const updateBoard = (value:any, next:boolean) => {
     var newTries = {...Tries};
+    var index = LetterNum;
+    if(!next) index--;
     switch(Attempt) {
-      case 1: newTries.try1[LetterNum] = value;
+      case 1: newTries.try1[index] = value;
         break;
-      case 2: newTries.try2[LetterNum] = value;
+      case 2: newTries.try2[index] = value;
         break;
-      case 3: newTries.try3[LetterNum] = value;
+      case 3: newTries.try3[index] = value;
         break;
-      case 4: newTries.try4[LetterNum] = value;
+      case 4: newTries.try4[index] = value;
         break;
-      case 5: newTries.try5[LetterNum] = value;
+      case 5: newTries.try5[index] = value;
         break;
-      case 6: newTries.try6[LetterNum] = value;
+      case 6: newTries.try6[index] = value;
         break;
     }
-    if (LetterNum < 4) setLetterNum(LetterNum + 1);
-    else {
-      setLetterNum(0);
-      if (Attempt === 6) alert("end"); // --------- GAME END CONDITION ---------
-      else setAttempt(Attempt + 1);
-    }
+    if(next) index++;
+    setLetterNum(index);
     setTries(newTries);
+  }
+
+  const checkAttempt = () => {
+    if(Attempt < 7 && LetterNum === 5) {
+      setAttempt(Attempt + 1);
+      setLetterNum(0);
+    }
   }
 
   return (
