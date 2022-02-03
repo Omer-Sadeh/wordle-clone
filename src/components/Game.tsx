@@ -3,7 +3,7 @@ import Board from './Board/Board';
 import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
 
-function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:string[]}) {
+function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
 
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
@@ -43,13 +43,18 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:string[]}) {
     var newKeyboard = KeyboardTiles.concat();
     var winCondition = true;
 
-    var currentWord = "";
+    var currentWord = '';
     for (var i = 0; i < 5; i++) currentWord += newBoard[Attempt*5 + i].name;
 
-    if(Attempt < 6 && LetterNum === 5 && Wordlist.indexOf(currentWord) !== -1) {
+    var flag = false;
+    for (i = 0; i < Wordlist.length; i++) {
+      if (Wordlist[i].substring(0,5) === currentWord.toLowerCase()) {flag = true; break;}
+    }
+
+    if(Attempt < 6 && LetterNum === 5 && flag) {
 
       var indexesNotCorrect = [0, 1, 2, 3, 4];
-      for (var i = 0; i < 5; i++) { // run through all attempt letters and check if the letter is in the right position
+      for (i = 0; i < 5; i++) { // run through all attempt letters and check if the letter is in the right position
         if (newBoard[Attempt*5 + i].name === TheWord[i]){
           newBoard[Attempt*5 + i].state = "correct";
           indexesNotCorrect.splice(indexesNotCorrect.indexOf(i), 1);
@@ -85,7 +90,7 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:string[]}) {
       setLetterNum(0);
 
       // check win/lose condition
-    for (var i = 0; i < 5; i++) {
+    for (i = 0; i < 5; i++) {
       if (newBoard[Attempt*5 + i].state !== "correct") winCondition = false;
     }
     if (winCondition){
@@ -98,7 +103,7 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:string[]}) {
     }
 
     }
-    else if (Wordlist.indexOf(currentWord) === -1) { // in case the typed word doesnt exist in dictionary
+    else if (!flag) { // in case the typed word doesnt exist in dictionary
       alert("not a word!");
     }
 
