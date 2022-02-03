@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import Board from './components/Board/Board';
-import Header from './components/Header';
-import Keyboard from './components/Keyboard/Keyboard';
+import Game from './components/Game';
 
 function App() {
 
-  const KeyboardTiles = {
-    Row1: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    Row2: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    Row3: ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DEL']
-  };
+    var file = require(process.env.PUBLIC_URL + "./files/EnglishWords.txt");
+    const [RandomWord, setRandomWord] = useState("");
+    const [AllWords, setAllWords] = useState(Array(1).fill("word"));
+
+    useEffect(() => {
+      fetch(file).then(r => r.text()).then(text => {
+        var words = text.split("\n");
+        var word = words[Math.floor(Math.random() * words.length)].toUpperCase();
+        setRandomWord(word);
+        setAllWords(words);
+      });
+    }, []);
 
   return (
-    <div className="App">
-      <div className="game-wrapper">
-        <Header />
-        <Board />
-        <Keyboard row1={KeyboardTiles.Row1} row2={KeyboardTiles.Row2} row3={KeyboardTiles.Row3} />
-      </div>
-    </div>
+    <Game TheWord={RandomWord} Wordlist={AllWords} />
   );
 }
 
