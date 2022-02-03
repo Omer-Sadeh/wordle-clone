@@ -12,7 +12,6 @@ function Header() {
             <a className="header-btn"><BsFillFileBarGraphFill /></a>{" "}
             <a className="header-btn"><MdSettings /></a>
           </div>
-          
         </div>
     );
 }
