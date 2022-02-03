@@ -136,6 +136,20 @@
   border: 0px;
 }
 
+@keyframes redblink {  
+  0% { background-color: transparent; border: 2px solid rgb(58, 58, 58); }
+  15% { background-color: rgb(212, 12, 12); border: 0px; }
+  85% { background-color: rgb(212, 12, 12); border: 0px; }
+  100% { background-color: transparent; border: 2px solid rgb(58, 58, 58); }
+}
+
+.red {
+    background-color: transparent;
+    border: 2px solid rgb(58, 58, 58);
+    animation-name: redblink;
+    animation-duration: 0.4s; 
+}   
+
 /* ------------------------------------ */
 
 /* --- Keyboard ----------------------- */

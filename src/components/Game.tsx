@@ -104,11 +104,27 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
 
     }
     else if (!flag) { // in case the typed word doesnt exist in dictionary
-      alert("not a word!");
+      wrongSequence();
     }
-
     
   }
+
+  const wrongSequence = async () => {
+    var originalBoard = BoardTiles.concat();
+    var newBoard = BoardTiles.concat();
+    for (var i = 0; i < 5; i++) {
+      newBoard[Attempt*5 + i].state = "red";
+      newBoard[Attempt*5 + i].name = BoardTiles[Attempt*5 + i].name;
+    }
+    setBoardTiles(newBoard);
+    await timeout(500);
+    for (var i = 0; i < 5; i++) {
+      newBoard[Attempt*5 + i].state = "empty";
+      newBoard[Attempt*5 + i].name = BoardTiles[Attempt*5 + i].name;
+    }
+    setBoardTiles(newBoard);
+  }
+  function timeout(delay: number) {return new Promise( res => setTimeout(res, delay) );}
 
     return(
         <div className="App">
