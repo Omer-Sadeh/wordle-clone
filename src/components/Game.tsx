@@ -103,7 +103,7 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
     }
 
     }
-    else if (!flag) { // in case the typed word doesnt exist in dictionary
+    else if (Attempt < 6 && LetterNum === 5 && !flag) { // in case the typed word doesnt exist in dictionary
       wrongSequence();
     }
     
