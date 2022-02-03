@@ -3,7 +3,7 @@ import Board from './Board/Board';
 import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
 
-function Game({TheWord}:{TheWord:string}) {
+function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:string[]}) {
 
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
@@ -19,7 +19,8 @@ function Game({TheWord}:{TheWord:string}) {
       switch(value) {
         case "DEL": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
           break;
-        case "ENTER": checkAttempt();
+        case "ENTER": 
+          checkAttempt();
           break;
         default: if(LetterNum < 5 && Attempt < 6) updateBoard(value, true);
           break;
@@ -41,7 +42,11 @@ function Game({TheWord}:{TheWord:string}) {
     var newBoard = BoardTiles.concat();
     var newKeyboard = KeyboardTiles.concat();
     var winCondition = true;
-    if(Attempt < 6 && LetterNum === 5) {
+
+    var currentWord = "";
+    for (var i = 0; i < 5; i++) currentWord += newBoard[Attempt*5 + i].name;
+
+    if(Attempt < 6 && LetterNum === 5 && Wordlist.indexOf(currentWord) !== -1) {
 
       var indexesNotCorrect = [0, 1, 2, 3, 4];
       for (var i = 0; i < 5; i++) { // run through all attempt letters and check if the letter is in the right position
@@ -79,9 +84,7 @@ function Game({TheWord}:{TheWord:string}) {
       setAttempt(Attempt + 1);
       setLetterNum(0);
 
-    }
-
-    // check win/lose condition
+      // check win/lose condition
     for (var i = 0; i < 5; i++) {
       if (newBoard[Attempt*5 + i].state !== "correct") winCondition = false;
     }
@@ -93,6 +96,13 @@ function Game({TheWord}:{TheWord:string}) {
       alert("LOSE!");
       setGameEnded(true);
     }
+
+    }
+    else if (Wordlist.indexOf(currentWord) === -1) { // in case the typed word doesnt exist in dictionary
+      alert("not a word!");
+    }
+
+    
   }
 
     return(
