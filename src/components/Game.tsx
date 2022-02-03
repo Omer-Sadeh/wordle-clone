@@ -42,31 +42,46 @@ function Game({TheWord}:{TheWord:string}) {
     var newKeyboard = KeyboardTiles.concat();
     var winCondition = true;
     if(Attempt < 6 && LetterNum === 5) {
-      for (var i = 0; i < 5; i++) {
+
+      var indexesNotCorrect = [0, 1, 2, 3, 4];
+      for (var i = 0; i < 5; i++) { // run through all attempt letters and check if the letter is in the right position
         if (newBoard[Attempt*5 + i].name === TheWord[i]){
           newBoard[Attempt*5 + i].state = "correct";
-          for (var j = 0; j < 28; j++) {
-            if (newKeyboard[j].name === newBoard[Attempt*5 + i].name){
-              newKeyboard[j].state = "correct";
-              break;
-            }
-          }
-        }
-        else{
-          newBoard[Attempt*5 + i].state = "wrong";
-          for (var j = 0; j < 28; j++) {
-            if (newKeyboard[j].name === newBoard[Attempt*5 + i].name){
-              newKeyboard[j].state = "wrong";
-              break;
-            }
-          }
+          indexesNotCorrect.splice(indexesNotCorrect.indexOf(i), 1);
+          newKeyboard.map(key => {if (key.name === newBoard[Attempt*5 + i].name) key.state = "correct";});
         }
       }
+
+      var IndexesToCheck = indexesNotCorrect.concat();
+      indexesNotCorrect.map(index => { // run through all left attempt letters and check if the letter is in some other position
+        for (var j = 0; j < 5; j++) {
+          if (IndexesToCheck.indexOf(j) !== -1) {
+            if (newBoard[Attempt*5 + index].name === TheWord[j]) {
+              newBoard[Attempt*5 + index].state = "misplaced";
+              IndexesToCheck.splice(IndexesToCheck.indexOf(j), 1);
+              newKeyboard.map(key => {if (key.name === newBoard[Attempt*5 + index].name) key.state = "misplaced";});
+              break;
+            }
+          }    
+        }
+      });
+
+      indexesNotCorrect.map(index => {// run through all left attempt letters and set them to wrong
+        if(newBoard[Attempt*5 + index].state !== "misplaced") {
+          newBoard[Attempt*5 + index].state = "wrong";
+          newKeyboard.map(key => {if (key.name === newBoard[Attempt*5 + index].name) key.state = "wrong";});
+        }
+      })
+
+      // set board to new state
       setBoardTiles(newBoard);
       setKeyboardTiles(newKeyboard);
       setAttempt(Attempt + 1);
       setLetterNum(0);
+
     }
+
+    // check win/lose condition
     for (var i = 0; i < 5; i++) {
       if (newBoard[Attempt*5 + i].state !== "correct") winCondition = false;
     }
@@ -84,6 +99,7 @@ function Game({TheWord}:{TheWord:string}) {
         <div className="App">
             <div className="game-wrapper">
             <Header />
+            <p>{TheWord}</p>
             <Board words={BoardTiles} />
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
         </div>
