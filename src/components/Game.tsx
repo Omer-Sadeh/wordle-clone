@@ -109,7 +109,6 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:string[]}) {
         <div className="App">
             <div className="game-wrapper">
             <Header />
-            <p>{TheWord}</p>
             <Board words={BoardTiles} />
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
         </div>
