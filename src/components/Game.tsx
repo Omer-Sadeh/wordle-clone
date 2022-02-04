@@ -4,7 +4,7 @@ import Board from './Board/Board';
 import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
 
-function Game({TheWord, Wordlist, resetWord}:{TheWord:string, Wordlist:String[], resetWord:any}) {
+function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate: string, Wordlist:String[], resetWord:any}) {
 
   const emptyBoard = Array(6*5).fill({name: null, state: "empty"});
 
@@ -16,9 +16,18 @@ function Game({TheWord, Wordlist, resetWord}:{TheWord:string, Wordlist:String[],
   const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded"]);
 
   useEffect(() => {
-    if (cookies.Tiles != undefined) setBoardTiles(cookies.Tiles);
-    if (cookies.Attempt != undefined) setAttempt(cookies.Attempt);
-    if (cookies.GameEnded != undefined) setGameEnded(cookies.GameEnded);
+    var currentDate = new Date();
+    var DateString = "" + currentDate.getDate() + "." + currentDate.getMonth() + "." + currentDate.getFullYear();
+    if (DateString == WordDate) {
+      if (cookies.Tiles != undefined) setBoardTiles(cookies.Tiles);
+      if (cookies.Attempt != undefined) setAttempt(cookies.Attempt);
+      if (cookies.GameEnded != undefined) setGameEnded(cookies.GameEnded);
+    }
+    else {
+      removeCookie("Tiles");
+      removeCookie("Attempt");
+      removeCookie("GameEnded");
+    }
   }, []);
 
   const resetGame = () => {
