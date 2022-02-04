@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import Board from './Board/Board';
 import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
 
-function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
+function Game({TheWord, Wordlist, resetWord}:{TheWord:string, Wordlist:String[], resetWord:any}) {
+
+  const emptyBoard = Array(6*5).fill({name: null, state: "empty"});
 
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
-  const [BoardTiles, setBoardTiles] = useState(Array(6*5).fill({name: null, state: "empty"}));
+  const [BoardTiles, setBoardTiles] = useState(emptyBoard);
   const [GameEnded, setGameEnded] = useState(false);
+
+  const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded"]);
+
+  
+
+  useEffect(() => {
+    if (cookies.Tiles != undefined) setBoardTiles(cookies.Tiles);
+    if (cookies.Attempt != undefined) setAttempt(cookies.Attempt);
+    if (cookies.GameEnded != undefined) setGameEnded(cookies.GameEnded);
+  }, []);
+
+  const resetGame = () => {
+    removeCookie("Tiles");
+    removeCookie("Attempt");
+    removeCookie("GameEnded");
+    resetWord();
+    window.location.reload();
+  }
 
   const [KeyboardTiles, setKeyboardTiles] = useState([{name:'Q', state: ""}, {name:'W', state: ""}, {name:'E', state: ""}, {name:'R', state: ""}, {name:'T', state: ""}, {name:'Y', state: ""}, {name:'U', state: ""}, {name:'I', state: ""}, {name:'O', state: ""},
     {name:'P', state: ""}, {name:'A', state: ""}, {name:'S', state: ""}, {name:'D', state: ""}, {name:'F', state: ""}, {name:'G', state: ""}, {name:'H', state: ""}, {name:'J', state: ""}, {name:'K', state: ""}, {name:'L', state: ""},
@@ -89,6 +110,9 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
       setAttempt(Attempt + 1);
       setLetterNum(0);
 
+      setCookie("Tiles", newBoard, {path: "/"});
+      setCookie("Attempt", Attempt, {path: "/"});
+
       // check win/lose condition
     for (i = 0; i < 5; i++) {
       if (newBoard[Attempt*5 + i].state !== "correct") winCondition = false;
@@ -96,10 +120,12 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
     if (winCondition){
       alert("WIN!");
       setGameEnded(true);
+      setCookie("GameEnded", true, {path: "/"});
     }
     else if (Attempt === 5){
       alert("LOSE!");
       setGameEnded(true);
+      setCookie("GameEnded", true, {path: "/"});
     }
 
     }
@@ -129,7 +155,7 @@ function Game({TheWord, Wordlist}:{TheWord:string, Wordlist:String[]}) {
     return(
         <div className="App">
             <div className="game-wrapper">
-            <Header />
+            <Header reset={resetGame} />
             <Board words={BoardTiles} />
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
         </div>
