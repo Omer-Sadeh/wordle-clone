@@ -13,7 +13,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
   const [GameEnded, setGameEnded] = useState(false);
 
-  const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded", "keyboard"]);
 
   useEffect(() => {
     var currentDate = new Date();
@@ -22,11 +22,13 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       if (cookies.Tiles != undefined) setBoardTiles(cookies.Tiles);
       if (cookies.Attempt != undefined) setAttempt(cookies.Attempt);
       if (cookies.GameEnded != undefined) setGameEnded(cookies.GameEnded);
+      if (cookies.keyboard != undefined) setKeyboardTiles(cookies.keyboard);
     }
     else {
       removeCookie("Tiles");
       removeCookie("Attempt");
       removeCookie("GameEnded");
+      removeCookie("keyboard");
     }
   }, []);
 
@@ -34,6 +36,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     removeCookie("Tiles");
     removeCookie("Attempt");
     removeCookie("GameEnded");
+    removeCookie("keyboard");
     resetWord();
     window.location.reload();
   }
@@ -120,6 +123,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
       setCookie("Tiles", newBoard, {path: "/"});
       setCookie("Attempt", newAttempt, {path: "/"});
+      setCookie("keyboard", newKeyboard, {path: "/"});
 
       // check win/lose condition
     for (i = 0; i < 5; i++) {
