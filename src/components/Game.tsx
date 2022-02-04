@@ -15,8 +15,6 @@ function Game({TheWord, Wordlist, resetWord}:{TheWord:string, Wordlist:String[],
 
   const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded"]);
 
-  
-
   useEffect(() => {
     if (cookies.Tiles != undefined) setBoardTiles(cookies.Tiles);
     if (cookies.Attempt != undefined) setAttempt(cookies.Attempt);
@@ -107,11 +105,12 @@ function Game({TheWord, Wordlist, resetWord}:{TheWord:string, Wordlist:String[],
       // set board to new state
       setBoardTiles(newBoard);
       setKeyboardTiles(newKeyboard);
-      setAttempt(Attempt + 1);
+      var newAttempt = Attempt + 1;
+      setAttempt(newAttempt);
       setLetterNum(0);
 
       setCookie("Tiles", newBoard, {path: "/"});
-      setCookie("Attempt", Attempt, {path: "/"});
+      setCookie("Attempt", newAttempt, {path: "/"});
 
       // check win/lose condition
     for (i = 0; i < 5; i++) {

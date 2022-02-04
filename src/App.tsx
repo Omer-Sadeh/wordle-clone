@@ -9,27 +9,23 @@ function App() {
     const [RandomWord, setRandomWord] = useState("");
     const [AllWords, setAllWords] = useState(Array(1).fill("word"));
 
-    const [cookies, setCookie, removeCookie] = useCookies(["tilesTEST", "attemptTEST", "endedTEST", "wordTEST"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["Word"]);
 
     useEffect(() => {
       fetch(file).then(r => r.text()).then(text => {
         var words = text.split("\n");
         var word = words[Math.floor(Math.random() * words.length)].toUpperCase();
-        if (cookies.wordTEST == undefined) {
+        if (cookies.Word == undefined) {
           setRandomWord(word);
-          setCookie("wordTEST", word, {path: "/"});
+          setCookie("Word", word, {path: "/"});
         }
-        else setRandomWord(cookies.wordTEST);
+        else setRandomWord(cookies.Word);
         setAllWords(words);
       });
     }, []);
 
-    const resetWord = () => {
-      removeCookie("wordTEST");
-    }
-
   return (
-    <Game TheWord={RandomWord} Wordlist={AllWords} resetWord={resetWord} />
+    <Game TheWord={RandomWord} Wordlist={AllWords} resetWord={() => removeCookie("Word")} />
   );
 }
 
