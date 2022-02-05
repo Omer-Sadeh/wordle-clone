@@ -9,17 +9,20 @@ function App() {
     const [RandomWord, setRandomWord] = useState("");
     const [AllWords, setAllWords] = useState(Array(1).fill("word"));
 
+    var seedrandom = require('seedrandom');
+
     const [cookies, setCookie, removeCookie] = useCookies(["Word", "WordDate"]);
 
     useEffect(() => {
       fetch(file).then(r => r.text()).then(text => {
+        var currentDate = new Date();
+        var DateString = "" + currentDate.getDate() + "." + currentDate.getMonth() + "." + currentDate.getFullYear();
+        var rng = seedrandom(DateString);
         var words = text.split("\n");
-        var word = words[Math.floor(Math.random() * words.length)].toUpperCase();
+        var word = words[Math.floor(rng() * words.length)].toUpperCase();
         if (checkWord()) {
           setRandomWord(word);
           setCookie("Word", word, {path: "/"});
-          var currentDate = new Date();
-          var DateString = "" + currentDate.getDate() + "." + currentDate.getMonth() + "." + currentDate.getFullYear();
           setCookie("WordDate", DateString, {path: "/"});
         }
         else setRandomWord(cookies.Word);
