@@ -24,11 +24,50 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Wordle React Clone</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    
+    <script type="module">
+
+      // Import the functions you need from the SDKs you need
+    
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    
+      // TODO: Add SDKs for Firebase products that you want to use
+    
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+    
+      // Your web app's Firebase configuration
+    
+      const firebaseConfig = {
+    
+        apiKey: "AIzaSyAU6wupfWWDSS_M0cLOly7zehIOhazYQLs",
+    
+        authDomain: "wordlereact.firebaseapp.com",
+    
+        projectId: "wordlereact",
+    
+        storageBucket: "wordlereact.appspot.com",
+    
+        messagingSenderId: "1026433811600",
+    
+        appId: "1:1026433811600:web:b6fdf90281f0a90660c415"
+    
+      };
+    
+    
+      // Initialize Firebase
+    
+      const app = initializeApp(firebaseConfig);
+    
+    </script>
+
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
