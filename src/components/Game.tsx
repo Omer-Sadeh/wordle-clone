@@ -100,7 +100,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
             if (newBoard[Attempt*5 + index].name === TheWord[j]) {
               newBoard[Attempt*5 + index].state = "misplaced";
               IndexesToCheck.splice(IndexesToCheck.indexOf(j), 1);
-              newKeyboard.map(key => {if (key.name === newBoard[Attempt*5 + index].name) key.state = "misplaced";});
+              newKeyboard.map(key => {if ((key.name === newBoard[Attempt*5 + index].name) && (key.state === "")) key.state = "misplaced";});
               break;
             }
           }    
@@ -110,7 +110,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       indexesNotCorrect.map(index => {// run through all left attempt letters and set them to wrong
         if(newBoard[Attempt*5 + index].state !== "misplaced") {
           newBoard[Attempt*5 + index].state = "wrong";
-          newKeyboard.map(key => {if (key.name === newBoard[Attempt*5 + index].name) key.state = "wrong";});
+          newKeyboard.map(key => {if ((key.name === newBoard[Attempt*5 + index].name) && (key.state === "")) key.state = "wrong";});
         }
       })
 
