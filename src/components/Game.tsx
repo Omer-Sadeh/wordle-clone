@@ -55,7 +55,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     {name:'P', state: ""}, {name:'A', state: ""}, {name:'S', state: ""}, {name:'D', state: ""}, {name:'F', state: ""}, {name:'G', state: ""}, {name:'H', state: ""}, {name:'J', state: ""}, {name:'K', state: ""}, {name:'L', state: ""},
     {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'BACKSPACE', state: ""}]);
 
-  const keyboarPress = (value:String) => {
+  const keyboarPress = (value:string) => {
     if(!GameEnded) {
       switch(value) {
         case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
@@ -63,7 +63,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
         case "ENTER": 
           checkAttempt();
           break;
-        default: if(LetterNum < 5 && Attempt < 6) updateBoard(value, true);
+        default: if(LetterNum < 5 && Attempt < 6 && /^[A-Z]{1}$/.test(value)) updateBoard(value, true);
           break;
       }
     }
