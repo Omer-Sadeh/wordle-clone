@@ -19,11 +19,11 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   useEffect(() => {
     var currentDate = new Date();
     var DateString = "" + currentDate.getDate() + "." + currentDate.getMonth() + "." + currentDate.getFullYear();
-    if (DateString == WordDate) {
-      if (cookies.Tiles != undefined) setBoardTiles(cookies.Tiles);
-      if (cookies.Attempt != undefined) setAttempt(cookies.Attempt);
-      if (cookies.GameEnded != undefined) setGameEnded(cookies.GameEnded);
-      if (cookies.keyboard != undefined) setKeyboardTiles(cookies.keyboard);
+    if (DateString === WordDate) {
+      if (cookies.Tiles !== undefined) setBoardTiles(cookies.Tiles);
+      if (cookies.Attempt !== undefined) setAttempt(cookies.Attempt);
+      if (cookies.GameEnded !== undefined) setGameEnded(cookies.GameEnded);
+      if (cookies.keyboard !== undefined) setKeyboardTiles(cookies.keyboard);
     }
     else {
       removeCookie("Tiles");
@@ -35,7 +35,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
   const handler = useCallback(
     ({ key }) => {
-      //alert(key.toUpperCase());
+      console.log("keyboard key pressed: " + key.toUpperCase());
       keyboarPress(key.toUpperCase());
     },
     [Attempt, LetterNum, BoardTiles, GameEnded, setAttempt, setLetterNum, setBoardTiles, setGameEnded]
@@ -53,13 +53,11 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
   const [KeyboardTiles, setKeyboardTiles] = useState([{name:'Q', state: ""}, {name:'W', state: ""}, {name:'E', state: ""}, {name:'R', state: ""}, {name:'T', state: ""}, {name:'Y', state: ""}, {name:'U', state: ""}, {name:'I', state: ""}, {name:'O', state: ""},
     {name:'P', state: ""}, {name:'A', state: ""}, {name:'S', state: ""}, {name:'D', state: ""}, {name:'F', state: ""}, {name:'G', state: ""}, {name:'H', state: ""}, {name:'J', state: ""}, {name:'K', state: ""}, {name:'L', state: ""},
-    {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'DEL', state: ""}]);
+    {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'BACKSPACE', state: ""}]);
 
   const keyboarPress = (value:String) => {
     if(!GameEnded) {
       switch(value) {
-        case "DEL": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
-          break;
         case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
           break;
         case "ENTER": 
@@ -133,9 +131,9 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       setAttempt(newAttempt);
       setLetterNum(0);
 
-      setCookie("Tiles", newBoard, {path: "/"});
-      setCookie("Attempt", newAttempt, {path: "/"});
-      setCookie("keyboard", newKeyboard, {path: "/"});
+      setCookie("Tiles", newBoard, {path: "/", secure: true});
+      setCookie("Attempt", newAttempt, {path: "/", secure: true});
+      setCookie("keyboard", newKeyboard, {path: "/", secure: true});
 
       // check win/lose condition
     for (i = 0; i < 5; i++) {
@@ -144,12 +142,12 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     if (winCondition){
       alert("WIN!");
       setGameEnded(true);
-      setCookie("GameEnded", true, {path: "/"});
+      setCookie("GameEnded", true, {path: "/", secure: true});
     }
     else if (Attempt === 5){
       alert("LOSE!");
       setGameEnded(true);
-      setCookie("GameEnded", true, {path: "/"});
+      setCookie("GameEnded", true, {path: "/", secure: true});
     }
 
     }
@@ -160,7 +158,6 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   }
 
   const wrongSequence = async () => {
-    var originalBoard = BoardTiles.concat();
     var newBoard = BoardTiles.concat();
     for (var i = 0; i < 5; i++) {
       newBoard[Attempt*5 + i].state = "red";
@@ -168,7 +165,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     }
     setBoardTiles(newBoard);
     await timeout(500);
-    for (var i = 0; i < 5; i++) {
+    for (i = 0; i < 5; i++) {
       newBoard[Attempt*5 + i].state = "empty";
       newBoard[Attempt*5 + i].name = BoardTiles[Attempt*5 + i].name;
     }
