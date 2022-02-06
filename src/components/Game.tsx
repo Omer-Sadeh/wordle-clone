@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import Board from './Board/Board';
 import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
+import useEventListener from './Hooks/use-event-listener';
 
 function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate: string, Wordlist:String[], resetWord:any}) {
 
@@ -32,6 +33,15 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     }
   }, []);
 
+  const handler = useCallback(
+    ({ key }) => {
+      //alert(key.toUpperCase());
+      keyboarPress(key.toUpperCase());
+    },
+    [Attempt, LetterNum, BoardTiles, GameEnded, setAttempt, setLetterNum, setBoardTiles, setGameEnded]
+  );
+  useEventListener('keyup', handler);
+
   const resetGame = () => {
     removeCookie("Tiles");
     removeCookie("Attempt");
@@ -49,6 +59,8 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     if(!GameEnded) {
       switch(value) {
         case "DEL": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
+          break;
+        case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
           break;
         case "ENTER": 
           checkAttempt();
