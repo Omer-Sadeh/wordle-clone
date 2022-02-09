@@ -239,7 +239,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       case "help":
         return (<HelpModal />);
       case "settings":
-        return (<SettingsModal />);
+        return (<SettingsModal reset={resetGame} />);
     }
   }
 

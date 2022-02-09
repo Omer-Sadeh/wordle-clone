@@ -362,4 +362,17 @@
   justify-content: space-between;
 }
 
+.Settings-row {
+  align-items: center;
+  width: 100%;
+  display: flex;
+  margin: auto;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.settings-btn {
+  background-color: rgb(207, 21, 21);
+}
+
 /* ------------------------------------ */
