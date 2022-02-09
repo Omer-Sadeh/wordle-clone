@@ -2,10 +2,15 @@ import React from 'react';
 import Modal from 'react-modal';
 import Countdown from 'react-countdown';
 import { BsShare } from 'react-icons/bs';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 function ResultsModal({isOpen, modalToggle, GameState, Attempt, share}:{isOpen: boolean, modalToggle: any, GameState: string, Attempt:number, share: any}) {
 
   const Today = new Date;
+
+  const ShareBoardBtn = () => {
+    return(<CopyToClipboard text={share()} onCopy={() => alert("copied")}><button className="share-btn">SHARE <BsShare /></button></CopyToClipboard>);
+  }
 
 
   if (GameState === "running") {
@@ -26,7 +31,7 @@ function ResultsModal({isOpen, modalToggle, GameState, Attempt, share}:{isOpen: 
         <div className="modal-content">
           <div className="modalRow1"><a className="modal-close" onClick={modalToggle}>X</a></div>
           <div className="modalRow2">{GameState === "win" ? "You Won!" : "You Lost!"}</div>
-          <div className="modalRow3"><p>{Attempt} Guesses</p><p>  |  </p><Countdown date={new Date(Today.getFullYear(), Today.getMonth(), Today.getDate() + 1, 0, 0 ,0)} /><p>  |  </p><button className="share-btn" onClick={share}>SHARE <BsShare /></button></div>
+          <div className="modalRow3"><p>{Attempt} Guesses</p><p>  |  </p><Countdown date={new Date(Today.getFullYear(), Today.getMonth(), Today.getDate() + 1, 0, 0 ,0)} /><p>  |  </p>{ShareBoardBtn()}</div>
         </div>
       </Modal>
     );

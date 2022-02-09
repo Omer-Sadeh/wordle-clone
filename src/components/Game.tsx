@@ -177,7 +177,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
   const modalToggle = () => {setEndgameModalOpen(!EndgameModalOpen)}
 
-  const shareBoard = () => {
+  const GenerateBoardShare = () => {
     var result = "Wordle React ".concat(Attempt + "/6\n\n");
       for (var i = 0; i < Attempt; i++) {
         for (var j = 0; j < 5; j++) {
@@ -197,7 +197,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
         }
         result += "\n";
       }  
-      alert("sharing: " + result);
+      return(result);
   }
 
 
@@ -212,7 +212,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
             <Board words={BoardTiles} />
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
 
-            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={shareBoard} />
+            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={GenerateBoardShare} />
         </div>
     </div>
     );
