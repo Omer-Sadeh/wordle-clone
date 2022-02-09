@@ -5,7 +5,8 @@ import Game from './components/Game';
 
 function App() {
 
-    var file = require(process.env.PUBLIC_URL + "./files/EnglishWords.txt");
+    var AllWordsFile = require(process.env.PUBLIC_URL + "./files/EnglishWords.txt");
+    var PossibleWordsFile = require(process.env.PUBLIC_URL + "./files/PossibleWords.txt");
     const [RandomWord, setRandomWord] = useState("");
     const [AllWords, setAllWords] = useState(Array(1).fill("word"));
 
@@ -14,7 +15,8 @@ function App() {
     const [cookies, setCookie, removeCookie] = useCookies(["Word", "WordDate"]);
 
     useEffect(() => {
-      fetch(file).then(r => r.text()).then(text => {
+
+      fetch(PossibleWordsFile).then(r => r.text()).then(text => {
         var currentDate = new Date();
         var DateString = "" + currentDate.getDate() + "." + currentDate.getMonth() + "." + currentDate.getFullYear();
         var rng = seedrandom(DateString);
@@ -26,8 +28,13 @@ function App() {
           setCookie("WordDate", DateString, {path: "/"});
         }
         else setRandomWord(cookies.Word);
+      });
+
+      fetch(AllWordsFile).then(r => r.text()).then(text => {
+        var words = text.split("\n");
         setAllWords(words);
       });
+
     }, []);
 
     const checkWord = () => {
