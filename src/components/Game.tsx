@@ -24,8 +24,11 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     if (DateString === WordDate) {
       if (cookies.Tiles !== undefined) setBoardTiles(cookies.Tiles);
       if (cookies.Attempt !== undefined) setAttempt(cookies.Attempt);
-      if (cookies.GameState !== undefined) setGameState(cookies.GameState);
       if (cookies.keyboard !== undefined) setKeyboardTiles(cookies.keyboard);
+      if (cookies.GameState !== undefined){
+        setGameState(cookies.GameState);
+        if (cookies.GameState !== "running") setEndgameModalOpen(true);
+      }
     }
     else {
       removeCookie("Tiles");
@@ -151,6 +154,10 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       setCookie("GameState", "lose", {path: "/", secure: true});
       modalToggle();
     }
+    else {
+      setGameState("running");
+      setCookie("GameState", "running", {path: "/", secure: true});
+    }
 
     }
     else if (Attempt < 6 && LetterNum === 5 && !flag) { // in case the typed word doesnt exist in dictionary
@@ -199,10 +206,6 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       }  
       return(result);
   }
-
-
-
-
 
 
     return(
