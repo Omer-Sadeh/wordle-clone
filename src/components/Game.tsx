@@ -23,7 +23,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     var DateString = "" + currentDate.getDate() + "." + currentDate.getMonth() + "." + currentDate.getFullYear();
     if (DateString === WordDate) {
       if (cookies.Tiles !== undefined) setBoardTiles(cookies.Tiles);
-      if (cookies.Attempt !== undefined) setAttempt(cookies.Attempt);
+      if (cookies.Attempt !== undefined) setAttempt(parseInt(cookies.Attempt));
       if (cookies.keyboard !== undefined) setKeyboardTiles(cookies.keyboard);
       if (cookies.GameState !== undefined){
         setGameState(cookies.GameState);
