@@ -5,6 +5,7 @@ import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
 import useEventListener from './Hooks/use-event-listener';
 import ResultsModal from './Modals/ResultsModal';
+import HelpModal from './Modals/HelpModal';
 
 function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate: string, Wordlist:String[], resetWord:any}) {
 
@@ -15,6 +16,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
   const [GameState, setGameState] = useState("running");
   const [EndgameModalOpen, setEndgameModalOpen] = useState(false);
+  const [HelpPageOpen, setHelpPageOpen] = useState(false);
 
   const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "keyboard", "GameState"]);
 
@@ -207,12 +209,23 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       return(result);
   }
 
+  const ToggleHelp = () => {
+    setHelpPageOpen(!HelpPageOpen);
+    if (GameState === "pause") setGameState(cookies.GameState);
+    else setGameState("pause");
+  }
+
+  const renderGameScreen = () => {
+    if (!HelpPageOpen) return (<Board words={BoardTiles} />)
+    else return (<HelpModal />)
+  }
+
 
     return(
         <div className="App">
             <div className="game-wrapper">
-            <Header reset={resetGame} openModal={modalToggle} />
-            <Board words={BoardTiles} />
+            <Header reset={resetGame} openModal={modalToggle} openHelp={ToggleHelp} />
+            {renderGameScreen()}
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
 
             <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={GenerateBoardShare} />
