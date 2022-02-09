@@ -4,15 +4,17 @@ import Board from './Board/Board';
 import Header from './Header/Header';
 import Keyboard from './Keyboard/Keyboard';
 import useEventListener from './Hooks/use-event-listener';
+import ResultsModal from './Modals/ResultsModal';
 
 function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate: string, Wordlist:String[], resetWord:any}) {
 
   const emptyBoard = Array(6*5).fill({name: null, state: "empty"});
-
+  
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
   const [GameEnded, setGameEnded] = useState(false);
+  const [EndgameModalOpen, setEndgameModalOpen] = useState(false);
 
   const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded", "keyboard"]);
 
@@ -173,12 +175,21 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   }
   function timeout(delay: number) {return new Promise( res => setTimeout(res, delay) );}
 
+  const modalToggle = () => {setEndgameModalOpen(!EndgameModalOpen)}
+
+
+
+
+
+
     return(
         <div className="App">
             <div className="game-wrapper">
-            <Header reset={resetGame} />
+            <Header reset={resetGame} openModal={modalToggle} />
             <Board words={BoardTiles} />
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
+
+            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameEnded={GameEnded} />
         </div>
     </div>
     );
