@@ -13,10 +13,10 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
-  const [GameEnded, setGameEnded] = useState(false);
+  const [GameState, setGameState] = useState("running");
   const [EndgameModalOpen, setEndgameModalOpen] = useState(false);
 
-  const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "GameEnded", "keyboard"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "keyboard", "GameState"]);
 
   useEffect(() => {
     var currentDate = new Date();
@@ -24,13 +24,13 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     if (DateString === WordDate) {
       if (cookies.Tiles !== undefined) setBoardTiles(cookies.Tiles);
       if (cookies.Attempt !== undefined) setAttempt(cookies.Attempt);
-      if (cookies.GameEnded !== undefined) setGameEnded(cookies.GameEnded);
+      if (cookies.GameState !== undefined) setGameState(cookies.GameState);
       if (cookies.keyboard !== undefined) setKeyboardTiles(cookies.keyboard);
     }
     else {
       removeCookie("Tiles");
       removeCookie("Attempt");
-      removeCookie("GameEnded");
+      removeCookie("GameState");
       removeCookie("keyboard");
     }
   }, []);
@@ -40,14 +40,14 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       console.log("keyboard key pressed: " + key.toUpperCase());
       keyboarPress(key.toUpperCase());
     },
-    [Attempt, LetterNum, BoardTiles, GameEnded, setAttempt, setLetterNum, setBoardTiles, setGameEnded]
+    [Attempt, LetterNum, BoardTiles, GameState, setGameState, setAttempt, setLetterNum, setBoardTiles]
   );
   useEventListener('keyup', handler);
 
   const resetGame = () => {
     removeCookie("Tiles");
     removeCookie("Attempt");
-    removeCookie("GameEnded");
+    removeCookie("GameState");
     removeCookie("keyboard");
     resetWord();
     window.location.reload();
@@ -58,7 +58,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'BACKSPACE', state: ""}]);
 
   const keyboarPress = (value:string) => {
-    if(!GameEnded) {
+    if(GameState === "running") {
       switch(value) {
         case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
           break;
@@ -142,14 +142,14 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       if (newBoard[Attempt*5 + i].state !== "correct") winCondition = false;
     }
     if (winCondition){
-      alert("WIN!");
-      setGameEnded(true);
-      setCookie("GameEnded", true, {path: "/", secure: true});
+      setGameState("win");
+      setCookie("GameState", "win", {path: "/", secure: true});
+      modalToggle();
     }
     else if (Attempt === 5){
-      alert("LOSE!");
-      setGameEnded(true);
-      setCookie("GameEnded", true, {path: "/", secure: true});
+      setGameState("lose");
+      setCookie("GameState", "lose", {path: "/", secure: true});
+      modalToggle();
     }
 
     }
@@ -177,6 +177,29 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
   const modalToggle = () => {setEndgameModalOpen(!EndgameModalOpen)}
 
+  const shareBoard = () => {
+    var result = "Wordle React ".concat(Attempt + "/6\n\n");
+      for (var i = 0; i < Attempt; i++) {
+        for (var j = 0; j < 5; j++) {
+          switch(BoardTiles[i*5 + j].state) {
+            case "correct":
+              result += "🟩";
+              break;
+            case "misplaced":
+              result += "🟨";
+              break;
+            case "wrong":
+              result += "⬛";
+              break;
+            default:
+              result += "⬛";
+          }
+        }
+        result += "\n";
+      }  
+      alert("sharing: " + result);
+  }
+
 
 
 
@@ -189,7 +212,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
             <Board words={BoardTiles} />
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
 
-            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameEnded={GameEnded} />
+            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={shareBoard} />
         </div>
     </div>
     );
