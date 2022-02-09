@@ -6,6 +6,7 @@ import Keyboard from './Keyboard/Keyboard';
 import useEventListener from './Hooks/use-event-listener';
 import ResultsModal from './Modals/ResultsModal';
 import HelpModal from './Modals/HelpModal';
+import SettingsModal from './Modals/SettingsModal';
 
 function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate: string, Wordlist:String[], resetWord:any}) {
 
@@ -16,7 +17,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
   const [GameState, setGameState] = useState("running");
   const [EndgameModalOpen, setEndgameModalOpen] = useState(false);
-  const [HelpPageOpen, setHelpPageOpen] = useState(false);
+  const [GameScreenMode, setGameScreenMode] = useState("board");
 
   const [cookies, setCookie, removeCookie] = useCookies(["Tiles", "Attempt", "keyboard", "GameState"]);
 
@@ -210,21 +211,43 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   }
 
   const ToggleHelp = () => {
-    setHelpPageOpen(!HelpPageOpen);
-    if (GameState === "pause") setGameState(cookies.GameState);
-    else setGameState("pause");
+    if (GameScreenMode === "help") {
+      setGameScreenMode("board");
+      setGameState(cookies.GameState);
+    }
+    else {
+      setGameScreenMode("help");
+      setGameState("pause");
+    }
+  }
+
+  const ToggleSettings = () => {
+    if (GameScreenMode === "settings") {
+      setGameScreenMode("board");
+      setGameState(cookies.GameState);
+    }
+    else {
+      setGameScreenMode("settings");
+      setGameState("pause");
+    }
   }
 
   const renderGameScreen = () => {
-    if (!HelpPageOpen) return (<Board words={BoardTiles} />)
-    else return (<HelpModal />)
+    switch (GameScreenMode) {
+      case "board":
+        return (<Board words={BoardTiles} />);
+      case "help":
+        return (<HelpModal />);
+      case "settings":
+        return (<SettingsModal />);
+    }
   }
 
 
     return(
         <div className="App">
             <div className="game-wrapper">
-            <Header reset={resetGame} openModal={modalToggle} openHelp={ToggleHelp} />
+            <Header openModal={modalToggle} openHelp={ToggleHelp} openSettings={ToggleSettings} />
             {renderGameScreen()}
             <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
 
