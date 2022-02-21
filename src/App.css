@@ -13,10 +13,20 @@
   flex-direction: column;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
-  background-color: rgb(20, 20, 20);
+  background-color: var(--backColor);
   width: 100vw;
   height: 100vh;
-  color: white;
+  color: var(--fontColor);
+}
+
+.DarkModeVars {
+  --backColor: rgb(20, 20, 20);
+  --fontColor: white;
+}
+
+.BrightModeVars {
+  --backColor: white;
+  --fontColor: rgb(20, 20, 20);
 }
 
 .game-wrapper {

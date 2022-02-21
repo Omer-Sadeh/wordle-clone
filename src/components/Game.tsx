@@ -12,6 +12,10 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
   const emptyBoard = Array(6*5).fill({name: null, state: "empty"});
   
+  const [DarkMode, setDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
@@ -241,19 +245,19 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       case "help":
         return (<HelpModal />);
       case "settings":
-        return (<SettingsModal reset={resetGame} />);
+        return (<SettingsModal isDarkMode={DarkMode} setIsDarkMode={() => setDarkMode(!DarkMode)} reset={resetGame} />);
     }
   }
 
 
     return(
-        <div className="App">
-            <div className="game-wrapper">
-            <Header openModal={modalToggle} openHelp={ToggleHelp} openSettings={ToggleSettings} />
-            {renderGameScreen()}
-            <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
+        <div className={DarkMode ? "App DarkModeVars" : "App BrightModeVars"}>
+          <div className="game-wrapper">
+          <Header openModal={modalToggle} openHelp={ToggleHelp} openSettings={ToggleSettings} />
+          {renderGameScreen()}
+          <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
 
-            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={GenerateBoardShare} />
+          <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={GenerateBoardShare} />
         </div>
     </div>
     );
