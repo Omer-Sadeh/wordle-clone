@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import DarkModeToggle from "react-dark-mode-toggle";
 
-function SettingsModal({reset}:{reset:any}) {
+function SettingsModal({reset, isDarkMode, setIsDarkMode}:{reset:any, isDarkMode:boolean, setIsDarkMode:any}) {
 
-    const [isDarkMode, setIsDarkMode] = useState(() => true);
-
-    return(
+        return(
         <div className="board-wrapper">
             <div className="Settings-Page">
                 <div className="Settings-row"><p>Dark Mode (WIP): </p><DarkModeToggle onChange={setIsDarkMode} checked={isDarkMode} size={80} /></div>

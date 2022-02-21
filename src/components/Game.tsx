@@ -12,6 +12,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
 
   const emptyBoard = Array(6*5).fill({name: null, state: "empty"});
   
+  const [DarkMode, setDarkMode] = useState(true);
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
@@ -64,25 +65,30 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'BACKSPACE', state: ""}]);
 
   const keyboarPress = (value:string) => {
-    if(GameState === "running") {
+    if((GameState === "running") || (GameState === undefined)) {
       switch(value) {
-        case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
+        case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null);
           break;
         case "ENTER": 
           checkAttempt();
           break;
-        default: if(LetterNum < 5 && Attempt < 6 && /^[A-Z]{1}$/.test(value)) updateBoard(value, true);
+        default: if(LetterNum < 5 && Attempt < 6 && /^[A-Z]{1}$/.test(value)) updateBoard(value);
           break;
       }
     }
   }
 
-  const updateBoard = (value:any, next:boolean) => {
+  const updateBoard = (value:any) => {
     var newBoard = BoardTiles.concat();
     var index = LetterNum;
-    if(!next) index--;
-    newBoard[Attempt*5 + index] = {name: value, state:"empty"};
-    if(next) index++;
+    if(value !== null) {
+      newBoard[Attempt*5 + index] = {name: value, state:"unchecked"};
+      index++;
+    }
+    else {
+      index--;
+      newBoard[Attempt*5 + index] = {name: value, state:"empty"};
+    }
     setLetterNum(index);
     setBoardTiles(newBoard);
   }
@@ -241,19 +247,19 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       case "help":
         return (<HelpModal />);
       case "settings":
-        return (<SettingsModal reset={resetGame} />);
+        return (<SettingsModal isDarkMode={DarkMode} setIsDarkMode={() => setDarkMode(!DarkMode)} reset={resetGame} />);
     }
   }
 
 
     return(
-        <div className="App">
-            <div className="game-wrapper">
-            <Header openModal={modalToggle} openHelp={ToggleHelp} openSettings={ToggleSettings} />
-            {renderGameScreen()}
-            <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
+        <div className={DarkMode ? "App DarkModeVars" : "App BrightModeVars"}>
+          <div className="game-wrapper">
+          <Header openModal={modalToggle} openHelp={ToggleHelp} openSettings={ToggleSettings} />
+          {renderGameScreen()}
+          <Keyboard press={keyboarPress} letters={KeyboardTiles}/>
 
-            <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={GenerateBoardShare} />
+          <ResultsModal isOpen={EndgameModalOpen} modalToggle={modalToggle} GameState={GameState} Attempt={Attempt} share={GenerateBoardShare} />
         </div>
     </div>
     );

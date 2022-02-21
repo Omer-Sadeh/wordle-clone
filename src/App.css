@@ -13,10 +13,26 @@
   flex-direction: column;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
-  background-color: rgb(20, 20, 20);
+  background-color: var(--backColor);
   width: 100vw;
   height: 100vh;
-  color: white;
+  color: var(--fontColor);
+}
+
+.DarkModeVars {
+  --backColor: rgb(20, 20, 20);
+  --fontColor: white;
+  --borderColor: rgb(70, 70, 70);
+  --wrongTile: rgb(40, 40, 40);
+  --uncheckedTile: rgb(130, 130, 130);
+}
+
+.BrightModeVars {
+  --backColor: white;
+  --fontColor: rgb(20, 20, 20);
+  --borderColor: rgb(160, 160, 160);
+  --wrongTile: rgb(90, 90, 90);
+  --uncheckedTile: rgb(40, 40, 40);
 }
 
 .game-wrapper {
@@ -33,7 +49,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(71, 71, 71);
+  border-bottom: 1px solid var(--borderColor);
   padding: 0;
   margin: 0;
 }
@@ -76,7 +92,7 @@
 .header-btn {
   font-size: 1.5em;
   margin-top: 5px;
-  color: rgb(73, 73, 73);
+  color: var(--borderColor);
 }
 
 .header-btn:hover {
@@ -120,7 +136,6 @@
   height: 90%;
   position: relative;
   left: 5%;
-  color: white;
   font-size: 1.7em;
   font-weight: bold;
 
@@ -132,34 +147,44 @@
 
 .empty {
   background-color: transparent;
-  border: 2px solid rgb(58, 58, 58);
+  border: 2px solid var(--borderColor);
+  color: var(--fontColor);
+}
+
+.unchecked {
+  background-color: transparent;
+  border: 2px solid var(--uncheckedTile);
+  color: var(--fontColor);
 }
 
 .correct {
   background-color: rgb(72, 134, 72);
+  color: white;
   border: 0px;
 }
 
 .misplaced {
   background-color: rgb(177, 170, 76);
+  color: white;
   border: 0px;
 }
 
 .wrong {
-  background-color: rgb(58, 58, 58);
+  background-color: var(--borderColor);
+  color: white;
   border: 0px;
 }
 
 @keyframes redblink {  
-  0% { background-color: transparent; border: 2px solid rgb(58, 58, 58); }
+  0% { background-color: transparent; border: 2px solid var(--borderColor); }
   15% { background-color: rgb(212, 12, 12); border: 0px; }
   85% { background-color: rgb(212, 12, 12); border: 0px; }
-  100% { background-color: transparent; border: 2px solid rgb(58, 58, 58); }
+  100% { background-color: transparent; border: 2px solid var(--borderColor); }
 }
 
 .red {
     background-color: transparent;
-    border: 2px solid rgb(58, 58, 58);
+    border: 2px solid var(--borderColor);
     animation-name: redblink;
     animation-duration: 0.4s; 
 }   
@@ -199,10 +224,10 @@
   height: 90%;
   position: relative;
   left: 5%;
-  background-color: gray;
+  background-color: var(--borderColor);
   border: 0px;
   border-radius: 8%;
-  color: white;
+  color: var(--fontColor);
   font-weight: bold;
 
   -webkit-transition: all .2s ease-in-out;
@@ -216,15 +241,27 @@
 }
 
 .btn-wrapper .wrong {
-  background-color: rgb(46, 46, 46);
+  background-color: var(--wrongTile);
+}
+
+.btn-wrapper .wrong:hover {
+  background-color: var(--borderColor);
 }
 
 .btn-wrapper .correct {
   background-color: rgb(72, 134, 72);
 }
 
+.btn-wrapper .correct:hover {
+  background-color: rgb(91, 173, 91);
+}
+
 .btn-wrapper .misplaced {
   background-color: rgb(177, 170, 76);
+}
+
+.btn-wrapper .misplaced:hover {
+  background-color: rgb(218, 209, 91);
 }
 
 .delete-btn {
