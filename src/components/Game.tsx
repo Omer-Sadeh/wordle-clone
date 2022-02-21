@@ -170,6 +170,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   }
 
   const wrongSequence = async () => {
+    setGameState("pause");
     var newBoard = BoardTiles.concat();
     for (var i = 0; i < 5; i++) {
       newBoard[Attempt*5 + i].state = "red";
@@ -182,6 +183,7 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
       newBoard[Attempt*5 + i].name = BoardTiles[Attempt*5 + i].name;
     }
     setBoardTiles(newBoard);
+    setGameState("running");
   }
   function timeout(delay: number) {return new Promise( res => setTimeout(res, delay) );}
 
