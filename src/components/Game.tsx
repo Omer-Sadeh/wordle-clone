@@ -13,9 +13,6 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
   const emptyBoard = Array(6*5).fill({name: null, state: "empty"});
   
   const [DarkMode, setDarkMode] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-
   const [Attempt, setAttempt] = useState(0);
   const [LetterNum, setLetterNum] = useState(0);
   const [BoardTiles, setBoardTiles] = useState(emptyBoard);
