@@ -6,7 +6,7 @@ function SettingsModal({reset, isDarkMode, setIsDarkMode}:{reset:any, isDarkMode
         return(
         <div className="board-wrapper">
             <div className="Settings-Page">
-                <div className="Settings-row"><p>Dark Mode (WIP): </p><DarkModeToggle onChange={setIsDarkMode} checked={isDarkMode} size={80} /></div>
+                <div className="Settings-row"><p>Dark Mode: </p><DarkModeToggle onChange={setIsDarkMode} checked={isDarkMode} size={80} /></div>
                 <div className="Settings-row"><p>Reset Button (Dev): </p><button className="settings-btn" onClick={() => reset()}>RESET</button></div>
             </div>
         </div>
