@@ -22,11 +22,15 @@
 .DarkModeVars {
   --backColor: rgb(20, 20, 20);
   --fontColor: white;
+  --borderColor: rgb(70, 70, 70);
+  --wrongTile: rgb(40, 40, 40);
 }
 
 .BrightModeVars {
   --backColor: white;
   --fontColor: rgb(20, 20, 20);
+  --borderColor: rgb(130, 130, 130);
+  --wrongTile: rgb(90, 90, 90);
 }
 
 .game-wrapper {
@@ -43,7 +47,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgb(71, 71, 71);
+  border-bottom: 1px solid var(--borderColor);
   padding: 0;
   margin: 0;
 }
@@ -86,7 +90,7 @@
 .header-btn {
   font-size: 1.5em;
   margin-top: 5px;
-  color: rgb(73, 73, 73);
+  color: var(--borderColor);
 }
 
 .header-btn:hover {
@@ -142,7 +146,7 @@
 
 .empty {
   background-color: transparent;
-  border: 2px solid rgb(58, 58, 58);
+  border: 2px solid var(--borderColor);
 }
 
 .correct {
@@ -156,20 +160,20 @@
 }
 
 .wrong {
-  background-color: rgb(58, 58, 58);
+  background-color: var(--borderColor);
   border: 0px;
 }
 
 @keyframes redblink {  
-  0% { background-color: transparent; border: 2px solid rgb(58, 58, 58); }
+  0% { background-color: transparent; border: 2px solid var(--borderColor); }
   15% { background-color: rgb(212, 12, 12); border: 0px; }
   85% { background-color: rgb(212, 12, 12); border: 0px; }
-  100% { background-color: transparent; border: 2px solid rgb(58, 58, 58); }
+  100% { background-color: transparent; border: 2px solid var(--borderColor); }
 }
 
 .red {
     background-color: transparent;
-    border: 2px solid rgb(58, 58, 58);
+    border: 2px solid var(--borderColor);
     animation-name: redblink;
     animation-duration: 0.4s; 
 }   
@@ -209,7 +213,7 @@
   height: 90%;
   position: relative;
   left: 5%;
-  background-color: gray;
+  background-color: var(--borderColor);
   border: 0px;
   border-radius: 8%;
   color: white;
@@ -226,7 +230,7 @@
 }
 
 .btn-wrapper .wrong {
-  background-color: rgb(46, 46, 46);
+  background-color: var(--wrongTile);
 }
 
 .btn-wrapper .correct {
