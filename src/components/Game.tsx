@@ -65,25 +65,30 @@ function Game({TheWord, WordDate, Wordlist, resetWord}:{TheWord:string, WordDate
     {name:'ENTER', state: ""}, {name:'Z', state: ""}, {name:'X', state: ""}, {name:'C', state: ""}, {name:'V', state: ""}, {name:'B', state: ""}, {name:'N', state: ""}, {name:'M', state: ""}, {name:'BACKSPACE', state: ""}]);
 
   const keyboarPress = (value:string) => {
-    if(GameState === "running") {
+    if((GameState === "running") || (GameState === undefined)) {
       switch(value) {
-        case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null, false);
+        case "BACKSPACE": if (LetterNum > 0 && Attempt < 6) updateBoard(null);
           break;
         case "ENTER": 
           checkAttempt();
           break;
-        default: if(LetterNum < 5 && Attempt < 6 && /^[A-Z]{1}$/.test(value)) updateBoard(value, true);
+        default: if(LetterNum < 5 && Attempt < 6 && /^[A-Z]{1}$/.test(value)) updateBoard(value);
           break;
       }
     }
   }
 
-  const updateBoard = (value:any, next:boolean) => {
+  const updateBoard = (value:any) => {
     var newBoard = BoardTiles.concat();
     var index = LetterNum;
-    if(!next) index--;
-    newBoard[Attempt*5 + index] = {name: value, state:"empty"};
-    if(next) index++;
+    if(value !== null) {
+      newBoard[Attempt*5 + index] = {name: value, state:"unchecked"};
+      index++;
+    }
+    else {
+      index--;
+      newBoard[Attempt*5 + index] = {name: value, state:"empty"};
+    }
     setLetterNum(index);
     setBoardTiles(newBoard);
   }

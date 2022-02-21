@@ -24,13 +24,15 @@
   --fontColor: white;
   --borderColor: rgb(70, 70, 70);
   --wrongTile: rgb(40, 40, 40);
+  --uncheckedTile: rgb(130, 130, 130);
 }
 
 .BrightModeVars {
   --backColor: white;
   --fontColor: rgb(20, 20, 20);
-  --borderColor: rgb(130, 130, 130);
+  --borderColor: rgb(160, 160, 160);
   --wrongTile: rgb(90, 90, 90);
+  --uncheckedTile: rgb(40, 40, 40);
 }
 
 .game-wrapper {
@@ -146,6 +148,12 @@
 .empty {
   background-color: transparent;
   border: 2px solid var(--borderColor);
+  color: var(--fontColor);
+}
+
+.unchecked {
+  background-color: transparent;
+  border: 2px solid var(--uncheckedTile);
   color: var(--fontColor);
 }
 
